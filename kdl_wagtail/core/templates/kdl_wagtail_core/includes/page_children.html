@@ -1,0 +1,30 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="children">
+
+    {% for child in children %}
+    <div class="child-page">
+        {% if child.image %}
+        <div class="child-page-image">
+            <a href="{% pageurl child %}">
+                {% image child.image fill-180x180-c100 %}
+            </a>
+        </div>
+        {% endif %}
+
+        {% if child.introduction %}
+        <div class="child-page-introduction">
+            <a href="{% pageurl child %}">
+                {{ child.introduction }}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    {% include "kdl_wagtail_core/includes/navigation.html" with items=children %}
+
+    {% empty %}
+    <p>No live pages found!</p>
+    {% endfor %}
+
+</div>

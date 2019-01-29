@@ -1,0 +1,8 @@
+{% load wagtailimages_tags %}
+
+<figure>
+    {% image self.image fill-600x600 %}
+    <figcaption>
+        {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
+    </figcaption>
+</figure>

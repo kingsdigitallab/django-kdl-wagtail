@@ -1,0 +1,4 @@
+{% load wagtailcore_tags %}
+
+<a class="{% if self.url %}external{% else %}internal{% endif %}"
+href="{% if self.url %}{{ self.url }}{% else %}{% pageurl self.page %}{% endif %}">{{ self.label }}</a>
