@@ -45,6 +45,7 @@ Features
     * An abstract BaseIndexPage, with functions to return the page's live children, context, and a function to paginate the children
     * A set of reusable StreamField blocks
     * Simple default templates for the pages and blocks defined in the module
+* A public API based on Wagtail's API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
 
 TODO
 ----

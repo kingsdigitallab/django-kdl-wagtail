@@ -4,6 +4,7 @@ from django.db import models
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import (FieldPanel, FieldRowPanel,
                                          MultiFieldPanel, StreamFieldPanel)
+from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -96,6 +97,21 @@ class BasePage(Page):
         related_name='+'
     )
 
+    api_fields = [
+        APIField('introduction'),
+        APIField('image')
+    ]
+
+    content_panels = Page.content_panels + [
+        FieldPanel('introduction', classname='full'),
+        ImageChooserPanel('image')
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('introduction'),
+        index.SearchField('body')
+    ]
+
     class Meta:
         abstract = True
 
@@ -140,14 +156,15 @@ class RichTextPage(BasePage):
     """
     body = RichTextField()
 
-    content_panels = Page.content_panels + [
-        FieldPanel('introduction', classname='full'),
-        ImageChooserPanel('image'),
-        FieldPanel('body'),
+    api_fields = BasePage.api_fields + [
+        APIField('body')
     ]
 
-    search_fields = Page.search_fields + [
-        index.SearchField('introduction'),
+    content_panels = BasePage.content_panels + [
+        FieldPanel('body', classname='full')
+    ]
+
+    search_fields = BasePage.search_fields + [
         index.SearchField('body')
     ]
 
@@ -159,13 +176,14 @@ class StreamPage(BasePage):
     """
     body = StreamField(BaseStreamBlock(), verbose_name='Page body', blank=True)
 
-    content_panels = Page.content_panels + [
-        FieldPanel('introduction', classname='full'),
-        ImageChooserPanel('image'),
-        StreamFieldPanel('body'),
+    api_fields = BasePage.api_fields + [
+        APIField('body')
     ]
 
-    search_fields = Page.search_fields + [
-        index.SearchField('introduction'),
+    content_panels = BasePage.content_panels + [
+        StreamFieldPanel('body', classname='full')
+    ]
+
+    search_fields = BasePage.search_fields + [
         index.SearchField('body')
     ]
