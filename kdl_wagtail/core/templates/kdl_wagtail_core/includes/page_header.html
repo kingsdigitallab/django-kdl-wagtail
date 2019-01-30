@@ -1,6 +1,6 @@
 {% load kdl_wagtail_core_tags wagtailcore_tags wagtailimages_tags %}
 
-<div class="page-header {{ page|get_page_label }}">
+<div class="page-header {% get_page_label page %}">
     {% if page.image %}
     <div class="image">
         {% image page.image width-1024 %}

@@ -2,7 +2,7 @@
 {% load kdl_wagtail_core_tags %}
 
 {% block page-body %}
-<div class="page-body {{ page|get_page_label }}">
+<div class="page-body {% get_page_label page %}">
     {% if page.introduction %}
     <div class="introduction">
         {{ page.introduction }}

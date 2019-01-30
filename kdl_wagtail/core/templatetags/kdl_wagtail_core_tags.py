@@ -15,7 +15,7 @@ def get_footer_text(context):
     return {'footer_text': footer_text}
 
 
-@register.filter()
+@register.simple_tag()
 def get_page_label(page):
     if not page:
         return
