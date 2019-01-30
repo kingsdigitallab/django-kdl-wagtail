@@ -31,7 +31,7 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'kdl_wagtail..core.apps.KdlWagtailCoreConfig',
+        'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
         ...
     )
 
