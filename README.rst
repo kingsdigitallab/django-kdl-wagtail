@@ -32,6 +32,7 @@ Add it to your `INSTALLED_APPS`:
     INSTALLED_APPS = (
         ...
         'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
+        'kdl_wagtail.contrib.people.apps.KdlWagtailContribPeopleConfig',
         ...
     )
 
@@ -51,7 +52,6 @@ TODO
 ----
 
 * Make it installable via PyPi
-* Set up public API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
 * Profile and team pages (could inherit from index), similar to kdl_web but without repetition of content.
 * generic front end search page (with filters for tags, page types, ...)
 * generic/abstract wagtail form page
