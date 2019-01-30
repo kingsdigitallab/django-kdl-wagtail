@@ -31,27 +31,31 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'kdl_wagtail.apps.KdlWagtailConfig',
+        'kdl_wagtail..core.apps.KdlWagtailCoreConfig',
         ...
     )
-
-Add Django KDL Wagtail's URL patterns:
-
-.. code-block:: python
-
-    from kdl_wagtail import urls as kdl_wagtail_urls
-
-
-    urlpatterns = [
-        ...
-        url(r'^', include(kdl_wagtail_urls)),
-        ...
-    ]
 
 Features
 --------
 
-* TODO
+* A Core Wagtail application, `kdl_wagtail.core` with:
+    * An abstract BasePage that contains and introduction and image fields, which all the other class in this package extend
+    * A RichTextPage with just a RichTextField (WYSIWYG)
+    * A StreamPage with a StreamField body
+    * An abstract BaseIndexPage, with functions to return the page's live children, context, and a function to paginate the children
+    * A set of reusable StreamField blocks
+    * Simple default templates for the pages and blocks defined in the module
+
+TODO
+----
+
+* Make it installable via PyPi
+* Set up public API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
+* Profile and team pages (could inherit from index), similar to kdl_web but without repetition of content.
+* generic front end search page (with filters for tags, page types, ...)
+* generic/abstract wagtail form page
+    * contact us page (could possibly inherit from wagtail form page)
+* FAQ page
 
 Running Tests
 -------------
