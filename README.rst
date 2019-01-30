@@ -5,11 +5,11 @@ Django KDL Wagtail
 .. image:: https://badge.fury.io/py/django-kdl-wagtail.svg
     :target: https://badge.fury.io/py/django-kdl-wagtail
 
-.. image:: https://travis-ci.org/jmiguelv/django-kdl-wagtail.svg?branch=master
-    :target: https://travis-ci.org/jmiguelv/django-kdl-wagtail
+.. image:: https://travis-ci.org/kingsdigitallab/django-kdl-wagtail.svg?branch=master
+    :target: https://travis-ci.org/kingsdigitallab/django-kdl-wagtail
 
-.. image:: https://codecov.io/gh/jmiguelv/django-kdl-wagtail/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/jmiguelv/django-kdl-wagtail
+.. image:: https://codecov.io/gh/kingsdigitallab/django-kdl-wagtail/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/kingsdigitallab/django-kdl-wagtail
 
 KDL Wagtail Base Models
 

@@ -49,9 +49,9 @@ setup(
     version=version,
     description="""KDL Wagtail Base Models""",
     long_description=readme + '\n\n' + history,
-    author='King's Digital Lab',
+    author='King\'s Digital Lab',
     author_email='jmvieira@gmail.com',
-    url='https://github.com/jmiguelv/django-kdl-wagtail',
+    url='https://github.com/kingsdigitallab/django-kdl-wagtail',
     packages=[
         'kdl_wagtail',
     ],
