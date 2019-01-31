@@ -1,3 +1,5 @@
+{% if items.paginator.count > 1 %}
+
 <nav class="pagination" role="pagination" aria-label="pagination">
     <ul>
         {% if items.has_previous %}
@@ -27,3 +29,5 @@
         {% endif %}
     </ul>
 </nav>
+
+{% endif %}

@@ -17,8 +17,10 @@ from .blocks import BaseStreamBlock
 class FooterText(models.Model):
     """
     This provides editable text for the site footer. It is made accessible in
-    the templates via a template tag defined in kdl_wagtail/templatetags/
-    kdl_wagtail_tags.py
+    the templates via the template tag `get_footer_text` defined in
+    `kdl_wagtail/templatetags/kdl_wagtail_core_tags.py`.
+    It uses the `@register_snippet` decorator to allow it to be accessible
+    via the Snippets UI (e.g. /admin/snippets/kdl_wagtail_core/footertext/)
     """
     body = RichTextField()
 
@@ -57,8 +59,7 @@ class BasePage(Page):
     ]
 
     search_fields = Page.search_fields + [
-        index.SearchField('introduction'),
-        index.SearchField('body')
+        index.SearchField('introduction')
     ]
 
     class Meta:

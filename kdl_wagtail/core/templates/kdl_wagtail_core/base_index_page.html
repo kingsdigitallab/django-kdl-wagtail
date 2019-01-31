@@ -3,11 +3,9 @@
 
 {% block page-body %}
 <div class="page-body {% get_page_label page %}">
-    {% if page.introduction %}
-    <div class="introduction">
-        {{ page.introduction }}
-    </div>
-    {% endif %}
+    {% block page-introduction %}
+    {% include "kdl_wagtail_core/includes/page_introduction.html" %}
+    {% endblock page-introduction %}
 
     {% block page-children %}
     {% include "kdl_wagtail_core/includes/page_children.html" %}

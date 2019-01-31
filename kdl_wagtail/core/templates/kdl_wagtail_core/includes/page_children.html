@@ -2,29 +2,33 @@
 
 <div class="children">
 
-    {% for child in children %}
-    <div class="child-page">
-        {% if child.image %}
-        <div class="child-page-image">
+    {% if children %}
+    <ul>
+        {% for child in children %}
+        <li class="child-page">
             <a href="{% pageurl child %}">
-                {% image child.image fill-180x180-c100 %}
+                <div class="child-page-title">{{ child.title }}</div>
+
+                {% if child.image %}
+                <div class="child-page-image">
+                    {% image child.image fill-180x180-c100 %}
+                </div>
+                {% endif %}
+
+                {% if child.introduction %}
+                <div class="child-page-introduction">
+                    {{ child.introduction }}
+                </div>
+                {% endif %}
             </a>
-        </div>
-        {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
 
-        {% if child.introduction %}
-        <div class="child-page-introduction">
-            <a href="{% pageurl child %}">
-                {{ child.introduction }}
-            </a>
-        </div>
-        {% endif %}
-    </div>
+    {% include "kdl_wagtail_core/includes/pagination.html" with items=children %}
 
-    {% include "kdl_wagtail_core/includes/navigation.html" with items=children %}
-
-    {% empty %}
+    {% else %}
     <p>No live pages found!</p>
-    {% endfor %}
+    {% endif %}
 
 </div>
