@@ -47,12 +47,12 @@ Features
     * A set of reusable StreamField blocks
     * Simple default templates for the pages and blocks defined in the module
 * A public API based on Wagtail's API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
+* Person and People index pages
 
 TODO
 ----
 
 * Make it installable via PyPi
-* Profile and team pages (could inherit from index), similar to kdl_web but without repetition of content.
 * generic front end search page (with filters for tags, page types, ...)
 * generic/abstract wagtail form page
     * contact us page (could possibly inherit from wagtail form page)
