@@ -9,7 +9,7 @@ To use Django KDL Wagtail in a project, add it to your `INSTALLED_APPS`:
     INSTALLED_APPS = (
         ...
         'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
-        'kdl_wagtail.contrib.people.apps.KdlWagtailContribPeopleConfig',
+        'kdl_wagtail.people.apps.KdlWagtailContribPeopleConfig',
         ...
     )
 

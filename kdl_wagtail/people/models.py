@@ -36,7 +36,9 @@ class Person(index.Indexed, ClusterableModel):
     api_fields = [
         APIField('title'),
         APIField('name'),
-        APIField('image')
+        APIField('image'),
+        APIField('summary'),
+        APIField('description')
     ]
 
     panels = [
@@ -53,6 +55,8 @@ class Person(index.Indexed, ClusterableModel):
 
     search_fields = [
         index.SearchField('name'),
+        index.SearchField('summary'),
+        index.SearchField('description')
     ]
 
     class Meta:
