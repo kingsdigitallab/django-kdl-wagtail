@@ -1,0 +1,8 @@
+{% extends "kdl_wagtail_core/base.html" %}
+{% load kdl_wagtail_core_tags %}
+
+{% block page-body %}
+<div class="page-body {% get_page_label page %}">
+    {% include "kdl_wagtail_people/includes/person.html" with person=self.person %}
+</div>
+{% endblock page-body %}

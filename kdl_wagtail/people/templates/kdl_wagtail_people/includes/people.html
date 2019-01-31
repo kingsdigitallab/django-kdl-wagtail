@@ -1,0 +1,26 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="people">
+
+    {% if people %}
+    <ul>
+        {% for p in people %}
+        {% with person=p.person %}
+        <li class="person">
+            {% if person.pages.first %}
+            <a href="{% pageurl person.pages.first %}">
+                {% include "kdl_wagtail_people/includes/person.html" %}
+            </a>
+            {% else %}
+            {% include "kdl_wagtail_people/includes/person.html" %}
+            {% endif %}
+        </li>
+        {% endwith %}
+        {% endfor %}
+    </ul>
+
+    {% else %}
+    <p>No one here!</p>
+    {% endif %}
+
+</div>

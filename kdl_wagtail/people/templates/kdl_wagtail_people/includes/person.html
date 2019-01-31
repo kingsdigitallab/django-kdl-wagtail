@@ -1,0 +1,21 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="person-title">{{ person.title }}</div>
+
+{% if person.image %}
+<div class="person-image">
+    {% image person.image fill-180x180-c100 %}
+</div>
+{% endif %}
+
+{% if person.introduction %}
+<div class="person-introduction">
+    {{ person.introduction }}
+</div>
+{% endif %}
+
+{% if person.description %}
+<div class="person-description">
+    {{ person.description|richtext }}
+</div>
+{% endif %}
