@@ -23,3 +23,12 @@ To use the Wagtail API, add Django KDL Wagtail's `api_router` to `urls.py`:
         ...
         path('', include('wagtail.core.urls'))
     ]
+
+Available settings:
+
+.. code-block:: python
+    # the number of items per page used by the pagination functions
+    KDL_WAGTAIL_ITEMS_PER_PAGE = 10
+
+    # the person model to be used by the kdl_wagtail.people app
+    KDL_WAGTAIL_PERSON_MODEL = 'kdl_wagtail_people.Person'
