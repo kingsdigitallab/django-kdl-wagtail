@@ -47,7 +47,10 @@ Features
     * A set of reusable StreamField blocks
     * Simple default templates for the pages and blocks defined in the module
 * A public API based on Wagtail's API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
-* Person and People index pages
+* People application, `kdl_wagtail_people` with:
+    * A Person snippet, this is accessible from the Wagtail menu bar
+    * A PersonPage
+    * A PeopleIndexPage
 
 TODO
 ----
