@@ -1,10 +1,10 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 
-from .models import Person
+from .models import get_person_model
 
 
 class PersonModelAdmin(ModelAdmin):
-    model = Person
+    model = get_person_model()
     list_display = ['name', 'title', 'thumbnail']
     menu_icon = 'group'
 

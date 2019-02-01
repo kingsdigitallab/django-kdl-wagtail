@@ -1,3 +1,6 @@
+from django.apps import apps
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.db import models
 from kdl_wagtail.core.models import BaseIndexPage, BasePage
 from modelcluster.fields import ParentalKey
@@ -83,6 +86,34 @@ class Person(index.Indexed, ClusterableModel):
             self._title if self._title else '', self.name).strip()
 
 
+def get_person_model():
+    """
+    Return the person model that is active in this project. Defaults to
+    `kdl_wagtail_people.Person`.
+    """
+    try:
+        return apps.get_model(
+            settings.KDL_WAGTAIL_PERSON_MODEL, require_ready=False)
+    except AttributeError:
+        return Person
+    except ValueError:
+        raise ImproperlyConfigured(
+            ('KDL_WAGTAIL_PERSON_MODEL must be of the form '
+                '"app_label.model_name"')
+        )
+    except LookupError:
+        raise ImproperlyConfigured(
+            ('KDL_WAGTAIL_PERSON_MODEL refers to model "{}" '
+                'that has not been installed'.format(
+                    settings.KDL_WAGTAIL_PERSON_MODEL))
+        )
+
+    return Person
+
+
+PersonModel = get_person_model()
+
+
 class PeopleIndexPersonRelationship(Orderable, models.Model):
     """
     This defines the relationship between the `Person` snippet and the
@@ -94,7 +125,7 @@ class PeopleIndexPersonRelationship(Orderable, models.Model):
         on_delete=models.CASCADE
     )
     person = models.ForeignKey(
-        'Person', related_name='person_peopleindex_relationship',
+        PersonModel, related_name='person_peopleindex_relationship',
         on_delete=models.CASCADE
     )
     panels = [
@@ -131,7 +162,7 @@ class PeopleIndexPage(BaseIndexPage):
 
 class PersonPage(BasePage):
     person = models.ForeignKey(
-        'Person', related_name='pages', on_delete=models.PROTECT)
+        PersonModel, related_name='pages', on_delete=models.PROTECT)
 
     api_fields = BasePage.api_fields + [
         APIField('person')
