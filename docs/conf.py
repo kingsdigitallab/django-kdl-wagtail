@@ -11,7 +11,6 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import kdl_wagtail
 import sys
 import os
 
@@ -24,6 +23,7 @@ cwd = os.getcwd()
 parent = os.path.dirname(cwd)
 sys.path.append(parent)
 
+import kdl_wagtail
 
 # -- General configuration -----------------------------------------------------
 
