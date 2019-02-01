@@ -5,12 +5,10 @@
 test_django-kdl-wagtail
 ------------
 
-Tests for `django-kdl-wagtail` models module.
+Tests for `django-kdl-wagtail` core module.
 """
 
 from django.test import TestCase
-
-from kdl_wagtail.core import models
 
 
 class TestKdl_wagtail(TestCase):
