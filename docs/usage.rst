@@ -16,6 +16,7 @@ To use Django KDL Wagtail in a project, add it to your `INSTALLED_APPS`:
 To use the Wagtail API, add Django KDL Wagtail's `api_router` to `urls.py`:
 
 .. code-block:: python
+
     from kdl_wagtail.core.api import api_router
     urlpatterns = [
         ...
@@ -27,6 +28,7 @@ To use the Wagtail API, add Django KDL Wagtail's `api_router` to `urls.py`:
 Available settings:
 
 .. code-block:: python
+
     # the number of items per page used by the pagination functions
     KDL_WAGTAIL_ITEMS_PER_PAGE = 10
 
