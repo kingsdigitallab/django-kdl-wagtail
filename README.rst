@@ -55,7 +55,6 @@ Features
 TODO
 ----
 
-* Make it installable via PyPi
 * generic front end search page (with filters for tags, page types, ...)
 * generic/abstract wagtail form page
     * contact us page (could possibly inherit from wagtail form page)
