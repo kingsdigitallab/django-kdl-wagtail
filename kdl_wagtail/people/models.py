@@ -16,17 +16,17 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 
-@register_snippet
-class Person(index.Indexed, ClusterableModel):
+class BasePerson(index.Indexed, ClusterableModel):
     """
-    A Django model to store Person objects.
-    It uses the `@register_snippet` decorator to allow it to be accessible
-    via the Snippets UI (e.g. /admin/snippets/kdl_wagtail_people/person/).
-    `Person` uses the `ClusterableModel`, which allows the relationship with
-    another model to be stored locally to the 'parent' model (e.g. a PageModel)
-    until the parent is explicitly saved. This allows the editor to use the
-    'Preview' button, to preview the content, without saving the relationships
-    to the database.
+    An abstract Django model for Person objects. It is meant to be used as a
+    snippet to make the Person objects reusable and reduce duplication of code.
+    Use the `@register_snippet` decorator to allow it to be accessible via the
+    Snippets UI (e.g. /admin/snippets/kdl_wagtail_people/person/).
+    `BasePerson` uses the `ClusterableModel`, which allows the relationship
+    with another model to be stored locally to the 'parent' model
+    (e.g. a PageModel) until the parent is explicitly saved. This allows the
+    editor to use the 'Preview' button, to preview the content, without saving
+    the relationships to the database.
     https://github.com/wagtail/django-modelcluster
     """
     _title = models.CharField('Title', max_length=254, blank=True, null=True)
@@ -57,7 +57,8 @@ class Person(index.Indexed, ClusterableModel):
         ], 'Name'),
         FieldPanel('introduction', 'full'),
         ImageChooserPanel('image'),
-        FieldPanel('description', 'full')
+        FieldPanel('description', 'full'),
+        FieldPanel('active')
     ]
 
     search_fields = [
@@ -67,6 +68,7 @@ class Person(index.Indexed, ClusterableModel):
     ]
 
     class Meta:
+        abstract = True
         verbose_name = 'Person'
         verbose_name_plural = 'People'
 
@@ -84,6 +86,11 @@ class Person(index.Indexed, ClusterableModel):
     def title(self):
         return '{} {}'.format(
             self._title if self._title else '', self.name).strip()
+
+
+@register_snippet
+class Person(BasePerson):
+    pass
 
 
 def get_person_model():
