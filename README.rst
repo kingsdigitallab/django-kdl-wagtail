@@ -31,6 +31,8 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
+        'wagtail.contrib.settings',
+        ...
         'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
         'kdl_wagtail.people.apps.KdlWagtailContribPeopleConfig',
         ...
@@ -44,6 +46,7 @@ Features
     * A RichTextPage with just a RichTextField (WYSIWYG)
     * A StreamPage with a StreamField body
     * An abstract BaseIndexPage, with functions to return the page's live children, context, and a function to paginate the children
+    * An IndexPage
     * A set of reusable StreamField blocks
     * Simple default templates for the pages and blocks defined in the module
 * A public API based on Wagtail's API https://docs.wagtail.io/en/latest/advanced_topics/api/v2/configuration.html
@@ -51,6 +54,9 @@ Features
     * A Person snippet, this is accessible from the Wagtail menu bar
     * A PersonPage
     * A PeopleIndexPage
+* Custom settings
+    * Footer customisation
+    * Analytics integration
 
 TODO
 ----
