@@ -72,9 +72,9 @@ class IndexPage(BaseIndexPage):
     pass
 
 
-class RichTextPage(BasePage):
+class BaseRichTextPage(BasePage):
     """
-    A rich text page with a rich text field (WYSIWYG) body.
+    A base rich text page with a rich text field (WYSIWYG) body.
     """
     body = RichTextField()
 
@@ -90,10 +90,17 @@ class RichTextPage(BasePage):
         index.SearchField('body')
     ]
 
+    class Meta:
+        abstract = True
 
-class StreamPage(BasePage):
+
+class RichTextPage(BaseRichTextPage):
+    pass
+
+
+class BaseStreamPage(BasePage):
     """
-    A rich text page with a stream field body with blocks defined in
+    A base rich text page with a stream field body with blocks defined in
     `blocks.BaseStreamBlock`.
     """
     body = StreamField(BaseStreamBlock(), verbose_name='Page body', blank=True)
@@ -103,12 +110,19 @@ class StreamPage(BasePage):
     ]
 
     content_panels = BasePage.content_panels + [
-        StreamFieldPanel('body', classname='full')
+        StreamFieldPanel('body')
     ]
 
     search_fields = BasePage.search_fields + [
         index.SearchField('body')
     ]
+
+    class Meta:
+        abstract = True
+
+
+class StreamPage(BaseStreamPage):
+    pass
 
 
 @register_setting

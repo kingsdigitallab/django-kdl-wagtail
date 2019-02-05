@@ -1,6 +1,7 @@
-from wagtail.core.blocks import (CharBlock, ChoiceBlock, PageChooserBlock,
-                                 RichTextBlock, StreamBlock, StructBlock,
-                                 URLBlock)
+from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.core.blocks import (CharBlock, ChoiceBlock, ListBlock,
+                                 PageChooserBlock, RichTextBlock, StreamBlock,
+                                 StructBlock, URLBlock)
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -68,6 +69,14 @@ class ImageBlock(BaseCaptionAttributionBlock):
         template = 'kdl_wagtail_core/blocks/image_block.html'
 
 
+class GalleryBlock(StructBlock):
+    images_block = ListBlock(ImageBlock())
+
+    class Meta:
+        icon = 'image'
+        template = 'kdl_wagtail_core/blocks/gallery_block.html'
+
+
 class LinkBlock(StructBlock):
     """
     `StructBlock` for using links to external URLs or internal pages.
@@ -91,6 +100,8 @@ class BaseStreamBlock(StreamBlock):
         template='kdl_wagtail_core/blocks/richtext_block.html'
     )
     document_block = DocumentBlock()
+    gallery_block = GalleryBlock()
     image_block = ImageBlock()
     link_block = LinkBlock()
     embed_block = EmbedBlock()
+    table_block = TableBlock()
