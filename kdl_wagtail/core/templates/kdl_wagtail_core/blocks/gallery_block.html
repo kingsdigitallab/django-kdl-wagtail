@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+
+<div class="gallery">
+    {% for image in self.images_block %}
+    <figure>
+        {% image image.image fill-600x600 %}
+        <figcaption>
+            {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
+        </figcaption>
+    </figure>
+    {% endfor %}
+</div>
