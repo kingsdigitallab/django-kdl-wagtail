@@ -103,7 +103,7 @@ class StreamPage(BasePage):
     ]
 
     content_panels = BasePage.content_panels + [
-        StreamFieldPanel('body', classname='full')
+        StreamFieldPanel('body')
     ]
 
     search_fields = BasePage.search_fields + [

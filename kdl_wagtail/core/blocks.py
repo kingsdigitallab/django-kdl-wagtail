@@ -1,3 +1,4 @@
+from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.core.blocks import (CharBlock, ChoiceBlock, PageChooserBlock,
                                  RichTextBlock, StreamBlock, StructBlock,
                                  URLBlock)
@@ -94,3 +95,4 @@ class BaseStreamBlock(StreamBlock):
     image_block = ImageBlock()
     link_block = LinkBlock()
     embed_block = EmbedBlock()
+    table_block = TableBlock()
