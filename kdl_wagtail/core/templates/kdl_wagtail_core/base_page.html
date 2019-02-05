@@ -1,0 +1,10 @@
+{% extends "kdl_wagtail_core/base.html" %}
+{% load kdl_wagtail_core_tags %}
+
+{% block page-body %}
+<div class="page-body {% get_page_label page %}">
+    {% block page-introduction %}
+    {% include "kdl_wagtail_core/includes/page_introduction.html" %}
+    {% endblock page-introduction %}
+</div>
+{% endblock page-body %}
