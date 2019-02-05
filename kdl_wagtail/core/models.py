@@ -1,5 +1,3 @@
-from django.conf import settings
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.api import APIField
@@ -11,6 +9,7 @@ from wagtail.images.models import Image
 from wagtail.search import index
 
 from .blocks import BaseStreamBlock
+from .utils import paginate
 
 
 class BasePage(Page):
@@ -57,25 +56,13 @@ class BaseIndexPage(BasePage):
     def get_context(self, request):
         context = super().get_context(request)
 
-        children = self.paginate(request, self.children())
-
+        children = self._paginate(request)
         context['children'] = children
 
         return context
 
-    def paginate(self, request, *args):
-        page = request.GET.get('page')
-        paginator = Paginator(
-            self.children(), settings.KDL_WAGTAIL_ITEMS_PER_PAGE)
-
-        try:
-            pages = paginator.page(page)
-        except PageNotAnInteger:
-            pages = paginator.page(1)
-        except EmptyPage:
-            pages = paginator.page(paginator.num_pages)
-
-        return pages
+    def _paginate(self, request):
+        return paginate(self.children(), request.GET.get('page'))
 
 
 class IndexPage(BaseIndexPage):
