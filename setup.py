@@ -38,7 +38,7 @@ if sys.argv[-1] == 'publish':
 
 if sys.argv[-1] == 'tag':
     print('Tagging the version on git:')
-    os.system('git tag -a %s -m 'version % s'' % (version, version))
+    os.system('git tag -a %s -m "version %s"' % (version, version))
     os.system('git push --tags')
     sys.exit()
 
@@ -51,7 +51,7 @@ setup(
     description="""KDL Wagtail Base Models""",
     long_description=readme + '\n\n' + history,
     author='King\'s Digital Lab',
-    author_email='jmvieira@gmail.com',
+    author_email='kdl-info@kcl.ac.uk',
     url='https://github.com/kingsdigitallab/django-kdl-wagtail',
     packages=[
         'kdl_wagtail',
