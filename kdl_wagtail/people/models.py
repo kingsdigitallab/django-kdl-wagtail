@@ -57,8 +57,7 @@ class BasePerson(index.Indexed, ClusterableModel):
         ], 'Name'),
         FieldPanel('introduction', 'full'),
         ImageChooserPanel('image'),
-        FieldPanel('description', 'full'),
-        FieldPanel('active')
+        FieldPanel('description', 'full')
     ]
 
     search_fields = [
