@@ -72,7 +72,7 @@ class BasePerson(index.Indexed, ClusterableModel):
         verbose_name_plural = 'People'
 
     def __str__(self):
-        return '{} {}'.format(self._title, self.name)
+        return self.title
 
     @property
     def thumbnail(self):
