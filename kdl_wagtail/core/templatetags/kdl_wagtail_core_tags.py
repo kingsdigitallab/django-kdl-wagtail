@@ -19,7 +19,7 @@ def get_analytics_id(context):
 
 
 @register.inclusion_tag(
-    'kdl_wagtail/tags/footer_text.html', takes_context=True)
+    'kdl_wagtail_core/tags/footer_text.html', takes_context=True)
 def get_footer_text(context):
     footer_text = ''
 
