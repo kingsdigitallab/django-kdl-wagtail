@@ -33,8 +33,8 @@ Add it to your `INSTALLED_APPS`:
         ...
         'wagtail.contrib.settings',
         ...
-        'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
-        'kdl_wagtail.people.apps.KdlWagtailPeopleConfig',
+        'kdl_wagtail.core',
+        'kdl_wagtail.people',
         ...
     )
 
