@@ -57,7 +57,7 @@ setup(
         'kdl_wagtail',
     ],
     include_package_data=True,
-    install_requires=['wagtail>=2.4'],
+    install_requires=['wagtail>=2.3'],
     license='MIT',
     zip_safe=False,
     keywords='django-kdl-wagtail',
