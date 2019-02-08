@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('wagtailimages', '0001_squashed_0021'),
+        ('wagtailimages', '0021_image_file_hash'),
     ]
 
     operations = [

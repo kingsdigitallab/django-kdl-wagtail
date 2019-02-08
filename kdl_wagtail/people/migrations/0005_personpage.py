@@ -7,8 +7,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailcore', '0041_group_collection_permissions_verbose_name_plural'),
-        ('wagtailimages', '0001_squashed_0021'),
+        ('wagtailcore', '0040_page_draft_title'),
+        ('wagtailimages', '0021_image_file_hash'),
         ('kdl_wagtail_people', '0004_peopleindexpage_peopleindexpersonrelationship'),
     ]
 
