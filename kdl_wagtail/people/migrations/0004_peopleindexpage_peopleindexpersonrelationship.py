@@ -8,8 +8,8 @@ import modelcluster.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailimages', '0001_squashed_0021'),
-        ('wagtailcore', '0041_group_collection_permissions_verbose_name_plural'),
+        ('wagtailcore', '0040_page_draft_title'),
+        ('wagtailimages', '0021_image_file_hash'),
         ('kdl_wagtail_people', '0003_rename_field_title_on_person_to__title'),
     ]
 

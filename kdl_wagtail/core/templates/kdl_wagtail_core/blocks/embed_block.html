@@ -1,5 +1,6 @@
+{% load wagtailembeds_tags %}
 <div class="embed">
-    {{ self }}
+    {% embed self.embed_block.url %}
 
     {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
 </div>
