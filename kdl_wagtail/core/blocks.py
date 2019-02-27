@@ -7,6 +7,16 @@ from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
 
+class AlignmentChoiceBlock(ChoiceBlock):
+    choices = [
+        ('', 'Select block alignment'),
+        ('left', 'Left'),
+        ('right', 'Right'),
+        ('center', 'Centre'),
+        ('full-width', 'Full width')
+    ]
+
+
 class BaseCaptionAttributionBlock(StructBlock):
     """
     Base `StructBlock` to create blocks that use captions and attribution
@@ -63,6 +73,7 @@ class ImageBlock(BaseCaptionAttributionBlock):
     `StructBlock` for using images with associated caption and attribution.
     """
     image = ImageChooserBlock(required=True)
+    alignment = AlignmentChoiceBlock(required=True)
 
     class Meta:
         icon = 'image'
