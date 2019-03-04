@@ -22,11 +22,22 @@ class BaseCaptionAttributionBlock(StructBlock):
     Base `StructBlock` to create blocks that use captions and attribution
     fields.
     """
-    caption = CharBlock(required=False)
-    attribution = CharBlock(required=False)
-
-    description = RichTextBlock(required=False)
     transcription = RichTextBlock(required=False)
+    description = RichTextBlock(required=False)
+
+    attribution = CharBlock(required=False)
+    caption = CharBlock(required=False)
+
+    def get_form_context(self, value, prefix='', errors=None):
+        context = super().get_form_context(value, prefix=prefix, errors=errors)
+        fields = context['children'].copy()
+
+        for field in reversed(context['children']):
+            fields.move_to_end(field)
+
+        context['children'] = fields
+
+        return context
 
 
 class DocumentBlock(BaseCaptionAttributionBlock):
@@ -75,8 +86,8 @@ class ImageBlock(BaseCaptionAttributionBlock):
     """
     `StructBlock` for using images with associated caption and attribution.
     """
-    image = ImageChooserBlock(required=True)
     alignment = AlignmentChoiceBlock(required=True)
+    image = ImageChooserBlock(required=True)
 
     class Meta:
         icon = 'image'
