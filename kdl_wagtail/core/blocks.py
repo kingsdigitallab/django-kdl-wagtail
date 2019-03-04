@@ -1,4 +1,4 @@
-from wagtail.contrib.table_block.blocks import TableBlock
+from wagtail.contrib.table_block.blocks import TableBlock as WagtailTableBlock
 from wagtail.core.blocks import (CharBlock, ChoiceBlock, ListBlock,
                                  PageChooserBlock, RichTextBlock, StreamBlock,
                                  StructBlock, URLBlock)
@@ -24,6 +24,9 @@ class BaseCaptionAttributionBlock(StructBlock):
     """
     caption = CharBlock(required=False)
     attribution = CharBlock(required=False)
+
+    description = RichTextBlock(required=False)
+    transcription = RichTextBlock(required=False)
 
 
 class DocumentBlock(BaseCaptionAttributionBlock):
@@ -102,6 +105,16 @@ class LinkBlock(StructBlock):
         """
         icon = 'link'
         template = 'kdl_wagtail_core/blocks/link_block.html'
+
+
+class TableBlock(BaseCaptionAttributionBlock):
+    """
+    `StructBlock` for using tables with associated caption and attribution.
+    """
+    table = WagtailTableBlock(required=True)
+
+    class Meta:
+        template = 'kdl_wagtail_core/blocks/table_block.html'
 
 
 class BaseStreamBlock(StreamBlock):
