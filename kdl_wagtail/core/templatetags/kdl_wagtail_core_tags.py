@@ -51,3 +51,21 @@ def get_page_label(page):
         return None
 
     return page.specific.content_type.model
+
+
+@register.simple_tag()
+def get_object_id(obj, prefix=None, suffix=None):
+    """Return the 'identity' of an object. This is an integer which is
+    guaranteed to be unique and constant for this object during its lifetime.
+    Two objects with non-overlapping lifetimes may have the same id() value.
+    See https://docs.python.org/3/library/functions.html#id
+    """
+    obj_id = id(obj)
+
+    if prefix:
+        obj_id = '{}-{}'.format(prefix, obj_id)
+
+    if suffix:
+        obj_id = '{}-{}'.format(obj_id, suffix)
+
+    return obj_id
