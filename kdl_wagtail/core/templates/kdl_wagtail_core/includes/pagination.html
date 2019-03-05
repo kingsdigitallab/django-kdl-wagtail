@@ -1,4 +1,4 @@
-{% if items.paginator.count > 1 %}
+{% if items.paginator.num_pages > 1 %}
 
 <nav class="pagination" role="pagination" aria-label="pagination">
     <ul>
@@ -15,7 +15,7 @@
         <li class="active">{{ i }} <span class="sr-only">(current)</span></li>
         {% else %}
         <li>
-            <a href="?page={{ query_string|urlencode }}&amp;page={{ i }}">{{ i }}</a>
+            <a href="?page={{ i }}">{{ i }}</a>
         </li>
         {% endif %}
         {% endfor %}
