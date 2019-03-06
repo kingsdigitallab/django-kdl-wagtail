@@ -1,4 +1,5 @@
 from django import template
+from django.template.defaultfilters import striptags, truncatechars
 from kdl_wagtail.core.models import AnalyticsSettings, FooterSettings
 from kdl_wagtail.core.utils import paginate
 
@@ -16,6 +17,50 @@ def get_analytics_id(context):
             analytics_id = s.analytics_id
 
     return {'analytics_id': analytics_id}
+
+
+@register.simple_tag()
+def get_block_title(block):
+    if not block:
+        return
+
+    if block.block_type == 'document_block':
+        if block.value.get('caption'):
+            return block.value.get('caption')
+
+        return block.value.get('document').title
+
+    if block.block_type == 'embed_block':
+        if block.value.get('caption'):
+            return block.value.get('caption')
+
+        return block.value.get('embed_block').url.split('/')[2]
+
+    if block.block_type == 'heading_block':
+        return block.value.get('heading_text')
+
+    if block.block_type == 'image_block':
+        if block.value.get('caption'):
+            return block.value.get('caption')
+
+        return block.value.get('image').title
+
+    if block.block_type == 'gallery_block':
+        return 'Image gallery'
+
+    if block.block_type == 'link_block':
+        return block.value.get('label')
+
+    if block.block_type == 'richtext_block':
+        return striptags(truncatechars(block.value.source.__str__(), 20))
+
+    if block.block_type == 'table_block':
+        if block.value.get('caption'):
+            return block.value.get('caption')
+
+        return 'Table'
+
+    return block.block_type.replace('_', ' ').capitalize()
 
 
 @register.inclusion_tag(

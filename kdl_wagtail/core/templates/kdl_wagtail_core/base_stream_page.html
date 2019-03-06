@@ -4,6 +4,8 @@
 {% block page-body %}
 <div class="page-body {% get_page_label page %}">
     {% for block in page.body %}
+    <a class="anchor-link" id="{% get_object_id block %}"></a>
+
     {% include_block block %}
     {% endfor %}
 </div>
