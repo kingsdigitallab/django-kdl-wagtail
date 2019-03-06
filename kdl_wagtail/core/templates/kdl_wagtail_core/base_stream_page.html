@@ -3,6 +3,8 @@
 
 {% block page-body %}
 <div class="page-body {% get_page_label page %}">
-    {{ page.body }}
+    {% for block in page.body %}
+    {% include_block block %}
+    {% endfor %}
 </div>
 {% endblock page-body %}
