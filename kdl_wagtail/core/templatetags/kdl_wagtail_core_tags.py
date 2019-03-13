@@ -51,6 +51,10 @@ def get_block_title(block):
     if block.block_type == 'link_block':
         return block.value.get('label')
 
+    if block.block_type == 'pullquote_block':
+        return striptags(
+            truncatechars(block.value.get('quote').source.__str__(), 20))
+
     if block.block_type == 'richtext_block':
         return striptags(truncatechars(block.value.source.__str__(), 20))
 
