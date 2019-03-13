@@ -118,6 +118,15 @@ class LinkBlock(StructBlock):
         template = 'kdl_wagtail_core/blocks/link_block.html'
 
 
+class PullQuoteBlock(StructBlock):
+    quote = RichTextBlock()
+    attribution = CharBlock(required=False)
+
+    class Meta:
+        icon = 'openquote'
+        template = 'kdl_wagtail_core/blocks/pullquote_block.html'
+
+
 class TableBlock(BaseCaptionAttributionBlock):
     """
     `StructBlock` for using tables with associated caption and attribution.
@@ -125,6 +134,7 @@ class TableBlock(BaseCaptionAttributionBlock):
     table = WagtailTableBlock(required=True)
 
     class Meta:
+        icon = 'table'
         template = 'kdl_wagtail_core/blocks/table_block.html'
 
 
@@ -138,5 +148,6 @@ class BaseStreamBlock(StreamBlock):
     gallery_block = GalleryBlock()
     image_block = ImageBlock()
     link_block = LinkBlock()
+    pullquote_block = PullQuoteBlock()
     embed_block = EmbedBlock()
     table_block = TableBlock()
