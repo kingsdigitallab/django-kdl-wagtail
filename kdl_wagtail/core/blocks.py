@@ -10,9 +10,9 @@ from wagtail.images.blocks import ImageChooserBlock
 class AlignmentChoiceBlock(ChoiceBlock):
     choices = [
         ('', 'Select block alignment'),
-        ('left', 'Left'),
-        ('right', 'Right'),
-        ('center', 'Centre'),
+        ('float-left', 'Left'),
+        ('float-right', 'Right'),
+        ('float-center', 'Centre'),
         ('full-width', 'Full width')
     ]
 

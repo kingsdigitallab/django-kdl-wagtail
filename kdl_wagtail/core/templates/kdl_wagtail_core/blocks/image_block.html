@@ -1,15 +1,17 @@
 {% load wagtailimages_tags %}
 
-<figure class="{{ self.alignment }}">
-    {% if self.alignment == 'full-width' %}
-    {% image self.image original %}
-    {% else %}
-    {% image self.image max-800x800 %}
-    {% endif %}
+<div class="image {{ self.alignment }}">
+    <figure>
+        {% if self.alignment == 'full-width' %}
+        {% image self.image original %}
+        {% else %}
+        {% image self.image max-800x800 %}
+        {% endif %}
 
-    <figcaption>
-        {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
-    </figcaption>
-</figure>
+        <figcaption>
+            {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
+        </figcaption>
+    </figure>
 
-{% include "kdl_wagtail_core/includes/description_transcription.html" %}
+    {% include "kdl_wagtail_core/includes/description_transcription.html" %}
+</div>
