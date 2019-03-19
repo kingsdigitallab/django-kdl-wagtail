@@ -55,6 +55,15 @@ class EmbedBlock(BaseCaptionAttributionBlock):
     """
     `StructBlock` for using embeds with associated caption and attribution.
     """
+    display = ChoiceBlock(choices=[
+        ('', 'Select a display ratio'),
+        ('widescreen', '16:9'),
+        ('fourbythree', '4:3'),
+        ('audio', 'Audio'),
+        ('panorama', 'Panorama'),
+        ('square', 'Square'),
+        ('vertical', 'Vertical')
+    ], required=False)
     embed_block = WagtailEmbedBlock(
         help_text='Insert an embed URL', icon='media')
 

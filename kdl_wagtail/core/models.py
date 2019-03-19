@@ -133,3 +133,55 @@ class AnalyticsSettings(BaseSetting):
 @register_setting
 class FooterSettings(BaseSetting):
     body = RichTextField()
+
+
+class BaseSearchPage(BasePage):
+    '''
+    A basic front-end search page.
+    It searches for live Wagtail pages matching a query passed in the query
+    string. Results are paginated.
+
+    TODO:
+    add a facet for page types;
+    templating mechanism for each result type;
+    narrow down searchable page types with settings variable;
+    include other wagtail content like images or documents?
+        (might need to switch to Haystack for that)
+    let user specify the order (relevance, date);
+    '''
+    class Meta:
+        abstract = True
+
+    def get_context(self, request, *args, **kwargs):
+        ret = super(BaseSearchPage, self).get_context(request, *args, **kwargs)
+
+        hits = self.get_search_hits(request)
+
+        ret['hits'] = paginate(hits, request.GET.get('page', 1))
+        ret['search_phrase'] = self.get_search_phrase(request)
+
+        return ret
+
+    def get_search_hits(self, request):
+        query_set = self._get_querryset(request)
+        ret = self._search_queryset(request, query_set)
+        return ret
+
+    def get_search_phrase(self, request):
+        return request.GET.get('q', '').strip()
+
+    def _get_querryset(self, request):
+        ret = Page.objects.exclude(depth=1).live().specific()
+        return ret
+
+    def _search_queryset(self, request, queryset):
+        from wagtail.search.query import MATCH_ALL
+        phrase = self.get_search_phrase(request)
+        if not phrase:
+            phrase = MATCH_ALL
+        ret = queryset.search(phrase)
+        return ret
+
+
+class SearchPage(BaseSearchPage):
+    pass
