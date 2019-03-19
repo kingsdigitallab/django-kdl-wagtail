@@ -1,0 +1,25 @@
+{% extends "kdl_wagtail_core/base_page.html" %}
+{% load kdl_wagtail_core_tags %}
+
+{% block page-body %}
+  <div class="page-body {% get_page_label page %}">
+
+    {% block search-form %}
+      <form action="">
+        <input class="search-phrase" name="q" type="search" value="{{ search_phrase }}" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Search"/>
+        <button class="search-submit">Search</button>
+      </form>
+    {% endblock %}
+
+    {% block search-summary %}
+      <div class="search-summary">
+        {{ hits.paginator.count }} pages found
+      </div>
+    {% endblock search-summary %}
+
+    {% block search-hits %}
+      {% include "kdl_wagtail_core/includes/search_hits.html" %}
+    {% endblock search-hits %}
+
+  </div>
+{% endblock page-body %}
