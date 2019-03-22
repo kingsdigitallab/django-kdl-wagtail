@@ -22,7 +22,6 @@ class KdlWagtailCoreConfig(AppConfig):
         '''
 
         from django.conf import settings
-        from django.contrib.contenttypes.models import ContentType
 
         @classmethod
         def clean_parent_page_models(cls):
