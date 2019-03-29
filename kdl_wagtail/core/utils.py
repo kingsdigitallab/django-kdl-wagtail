@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib.contenttypes.management import create_contenttypes
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 
 def paginate(items, page=1, page_size=10):
@@ -71,8 +73,14 @@ def migrate_wagtail_page_type(apps, schema_editor, mapping):
 
     '''
 
+    PageRevision = apps.get_model('wagtailcore', 'PageRevision')
     PageFrom = apps.get_model(*mapping['models']['from'])
     PageTo = apps.get_model(*mapping['models']['to'])
+
+    # see ClusterableModel.to_json()
+    def to_json(page):
+        from wagtail.core.models import Page
+        return json.dumps(Page.serializable_data(page), cls=DjangoJSONEncoder)
 
     pages_to = []
 
@@ -132,6 +140,14 @@ def migrate_wagtail_page_type(apps, schema_editor, mapping):
             copy(page_from, page_to)
 
         pages_to.append(page_to)
+
+        # now convert the latest revision (if any)
+        page_rev = PageRevision.objects.filter(
+            page_id=page_to.id
+        ).order_by('-created_at', '-id').first()
+        if page_rev:
+            page_rev.content_json = to_json(page_to)
+            page_rev.save()
 
     # Remove all the converted page
     # we use a raw statement instead of .delete() because we want to keep
