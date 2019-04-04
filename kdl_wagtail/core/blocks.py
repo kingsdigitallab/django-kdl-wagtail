@@ -1,7 +1,8 @@
 from wagtail.contrib.table_block.blocks import TableBlock as WagtailTableBlock
-from wagtail.core.blocks import (CharBlock, ChoiceBlock, ListBlock,
-                                 PageChooserBlock, RichTextBlock, StreamBlock,
-                                 StructBlock, URLBlock)
+from wagtail.core.blocks import (
+    CharBlock, ChoiceBlock, ListBlock, PageChooserBlock, RichTextBlock,
+    StreamBlock, StructBlock, URLBlock
+)
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -95,10 +96,16 @@ class ImageBlock(BaseCaptionAttributionBlock):
     """
     `StructBlock` for using images with associated caption and attribution.
     """
+    page = PageChooserBlock(help_text='Link to a page', required=False)
+    url = URLBlock(help_text='External link', required=False)
     alignment = AlignmentChoiceBlock(required=True)
     image = ImageChooserBlock(required=True)
 
     class Meta:
+        help_text = """
+        Use either URL or page links, if both are filled in the URL
+        takes precedence.
+        """
         icon = 'image'
         template = 'kdl_wagtail_core/blocks/image_block.html'
 
