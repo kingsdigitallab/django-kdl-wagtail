@@ -64,7 +64,7 @@ def get_block_title(block):
 
         return 'Table'
 
-    return block.block_type.replace('_', ' ').capitalize()
+    return block.block_type.replace('_', ' ')
 
 
 @register.inclusion_tag(
