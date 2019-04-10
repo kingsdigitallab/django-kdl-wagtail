@@ -1,13 +1,13 @@
 {% load wagtailcore_tags %}
 
-{% if self.description %}
+{% if obj.description %}
 <div class="description">
-{{ self.description|richtext }}
+  {{ obj.description|richtext }}
 </div>
 {% endif %}
 
-{% if self.transcription %}
+{% if obj.transcription %}
 <div class="transcription">
-{{ self.transcription|richtext }}
+  {{ obj.transcription|richtext }}
 </div>
 {% endif %}
