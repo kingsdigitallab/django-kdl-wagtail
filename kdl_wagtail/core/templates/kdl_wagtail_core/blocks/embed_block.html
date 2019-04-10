@@ -1,13 +1,15 @@
 {% load wagtailembeds_tags %}
 
 <div class="embed">
-    <div class="responsive-embed {{ self.display }}">
+  <div class="responsive-embed {{ self.display }}">
     {% embed self.embed_block.url %}
-    </div>
+  </div>
 
-    {% if self.caption or self.attribution %}
-    <p>{% include "kdl_wagtail_core/includes/caption_attribution.html" %}</p>
-    {% endif %}
+  {% if self.caption or self.attribution %}
+  <p>
+    {% include "kdl_wagtail_core/includes/caption_attribution.html" with obj=self %}
+  </p>
+  {% endif %}
 
-    {% include "kdl_wagtail_core/includes/description_transcription.html" %}
+  {% include "kdl_wagtail_core/includes/description_transcription.html" %}
 </div>

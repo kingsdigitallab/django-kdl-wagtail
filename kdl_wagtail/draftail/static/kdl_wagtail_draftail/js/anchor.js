@@ -1,5 +1,5 @@
-const React = window.React;
-const RichUtils = window.DraftJS.RichUtils;
+const React = window.React
+const RichUtils = window.DraftJS.RichUtils
 
 /**
  * A React component that renders nothing.
@@ -14,33 +14,29 @@ class AnchorSource extends React.Component {
       editorState,
       entityType,
       onComplete
-    } = this.props;
+    } = this.props
 
-    const content = editorState.getCurrentContent();
+    const content = editorState.getCurrentContent()
+    const selection = editorState.getSelection()
 
     // This is very basic – we do not even support editing existing anchors.
-    const fragment = window.prompt('Fragment identifier:');
+    const fragment = window.prompt('Fragment identifier:')
 
     // Uses the Draft.js API to create a new entity with the right data.
-    const contentWithEntity = content.createEntity(
-      entityType.type,
+    const contentWithEntity = content.createEntity(entityType.type,
       'MUTABLE', {
-        fragment: fragment,
-      },
-    );
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    const selection = editorState.getSelection();
-    const nextState = RichUtils.toggleLink(
-      editorState,
-      selection,
-      entityKey,
-    );
+        fragment: fragment
+      })
+    const entityKey = contentWithEntity.getLastCreatedEntityKey()
 
-    onComplete(nextState);
+    const nextState = RichUtils.toggleLink(editorState, selection,
+      entityKey)
+
+    onComplete(nextState)
   }
 
   render() {
-    return null;
+    return null
   }
 }
 
@@ -48,27 +44,26 @@ const Anchor = props => {
   const {
     entityKey,
     contentState
-  } = props;
-  const data = contentState.getEntity(entityKey).getData();
+  } = props
+  const data = contentState.getEntity(entityKey).getData()
 
   return React.createElement(
     'a', {
       role: 'button',
       title: data.fragment,
       onMouseUp: () => {
-        window.alert(data.fragment);
-      },
+        window.alert(data.fragment)
+      }
     },
-    props.children,
-  );
-};
+    props.children
+  )
+}
 
 window.draftail.registerPlugin({
   type: 'ANCHOR',
   source: AnchorSource,
-  decorator: Anchor,
-});
-
+  decorator: Anchor
+})
 
 class AnchorIdentifierSource extends React.Component {
   componentDidMount() {
@@ -76,33 +71,28 @@ class AnchorIdentifierSource extends React.Component {
       editorState,
       entityType,
       onComplete
-    } = this.props;
+    } = this.props
 
-    const content = editorState.getCurrentContent();
+    const content = editorState.getCurrentContent()
 
     // This is very basic – we do not even support editing existing anchors.
-    const fragment = window.prompt('Fragment identifier:');
+    const fragment = window.prompt('Fragment identifier:')
 
     // Uses the Draft.js API to create a new entity with the right data.
-    const contentWithEntity = content.createEntity(
-      entityType.type,
+    const contentWithEntity = content.createEntity(entityType.type,
       'MUTABLE', {
-        fragment: fragment,
-      },
-    );
-    const entityKey = contentWithEntity.getLastCreatedEntityKey();
-    const selection = editorState.getSelection();
-    const nextState = RichUtils.toggleLink(
-      editorState,
-      selection,
-      entityKey,
-    );
+        fragment: fragment
+      })
+    const entityKey = contentWithEntity.getLastCreatedEntityKey()
+    const selection = editorState.getSelection()
+    const nextState = RichUtils.toggleLink(editorState, selection,
+      entityKey)
 
-    onComplete(nextState);
+    onComplete(nextState)
   }
 
   render() {
-    return null;
+    return null
   }
 }
 
@@ -110,8 +100,8 @@ const AnchorIdentifier = props => {
   const {
     entityKey,
     contentState
-  } = props;
-  const data = contentState.getEntity(entityKey).getData();
+  } = props
+  const data = contentState.getEntity(entityKey).getData()
 
   return React.createElement(
     'a', {
@@ -119,15 +109,15 @@ const AnchorIdentifier = props => {
       title: data.fragment,
       'data-id': data.fragment,
       onMouseUp: () => {
-        window.alert(data.fragment);
-      },
+        window.alert(data.fragment)
+      }
     },
-    props.children,
-  );
-};
+    props.children
+  )
+}
 
 window.draftail.registerPlugin({
   type: 'ANCHOR-IDENTIFIER',
   source: AnchorIdentifierSource,
-  decorator: AnchorIdentifier,
-});
+  decorator: AnchorIdentifier
+})

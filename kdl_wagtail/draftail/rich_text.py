@@ -11,7 +11,7 @@ def anchor_entity_decorator(props):
     """
     return DOM.create_element('a', {
         'data-anchor': True,
-        'href': '#{}'.format(props['fragment'].lstrip('#')),
+        'href': props['fragment'],
     }, props['children'])
 
 
