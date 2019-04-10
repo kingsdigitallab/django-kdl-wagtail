@@ -1,7 +1,7 @@
 from wagtail.contrib.table_block.blocks import TableBlock as WagtailTableBlock
 from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, ListBlock, PageChooserBlock, RichTextBlock,
-    StreamBlock, StructBlock, URLBlock
+    StreamBlock, StructBlock, StructValue, URLBlock
 )
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
@@ -92,6 +92,17 @@ class HeadingBlock(StructBlock):
         template = 'kdl_wagtail_core/blocks/heading_block.html'
 
 
+class LinkBlockStructValue(StructValue):
+    def link(self):
+        url = self.get('url')
+        page = self.get('page')
+
+        if url:
+            return url
+        elif page:
+            return page.url
+
+
 class ImageBlock(BaseCaptionAttributionBlock):
     """
     `StructBlock` for using images with associated caption and attribution.
@@ -108,6 +119,7 @@ class ImageBlock(BaseCaptionAttributionBlock):
         """
         icon = 'image'
         template = 'kdl_wagtail_core/blocks/image_block.html'
+        value_class = LinkBlockStructValue
 
 
 class GalleryBlock(StructBlock):
@@ -132,6 +144,7 @@ class LinkBlock(StructBlock):
         """
         icon = 'link'
         template = 'kdl_wagtail_core/blocks/link_block.html'
+        value_class = LinkBlockStructValue
 
 
 class PullQuoteBlock(StructBlock):
