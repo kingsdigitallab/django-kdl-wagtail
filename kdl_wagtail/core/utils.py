@@ -1,8 +1,10 @@
-from django.conf import settings
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.contrib.contenttypes.management import create_contenttypes
-from django.core.serializers.json import DjangoJSONEncoder
 import json
+import re
+
+from django.conf import settings
+from django.contrib.contenttypes.management import create_contenttypes
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def paginate(items, page=1, page_size=10):
@@ -167,3 +169,13 @@ def migrate_wagtail_page_type(apps, schema_editor, mapping):
         page_to.save()
 
     return len(pages_to)
+
+
+def krackdown_link(html):
+    return re.sub(
+        r'\[([^\[]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', html)
+
+
+def krackdown_anchor(html):
+    return re.sub(
+        r'\{#([^\}]+)\}', r'<a id="\1" class="anchor-link"></a>', html)

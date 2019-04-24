@@ -1,5 +1,8 @@
 from django import template
+from django.conf import settings
 from django.template.defaultfilters import striptags, truncatechars
+from django.utils.module_loading import import_string
+from django.utils.safestring import mark_safe
 from kdl_wagtail.core.models import AnalyticsSettings, FooterSettings
 from kdl_wagtail.core.utils import paginate
 
@@ -118,3 +121,17 @@ def get_object_id(obj, prefix=None, suffix=None):
         obj_id = '{}-{}'.format(obj_id, suffix)
 
     return obj_id
+
+
+@register.filter()
+def krackdown(richtext):
+    filters = getattr(settings, 'KDL_WAGTAIL_KRACKDOWN_FILTERS', [])
+
+    html = richtext.__html__()
+
+    for function_name in filters:
+        # not catching import errors to allow the propagation of the error
+        f = import_string(function_name)
+        html = f(html)
+
+    return mark_safe(html)
