@@ -1,13 +1,13 @@
-{% load wagtailcore_tags %}
+{% load kdl_wagtail_core_tags wagtailcore_tags %}
 
 {% if obj.description %}
 <div class="description">
-  {{ obj.description|richtext }}
+  {{ obj.description|richtext|krackdown }}
 </div>
 {% endif %}
 
 {% if obj.transcription %}
 <div class="transcription">
-  {{ obj.transcription|richtext }}
+  {{ obj.transcription|richtext|krackdown }}
 </div>
 {% endif %}
