@@ -1,5 +1,6 @@
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel,\
+    InlinePanel, MultiFieldPanel, FieldRowPanel
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.fields import RichTextField, StreamField
@@ -10,6 +11,11 @@ from wagtail.search import index
 
 from .blocks import BaseStreamBlock
 from .utils import paginate
+from wagtail.contrib.forms.models import AbstractFormField, AbstractEmailForm,\
+    FORM_FIELD_CHOICES
+from modelcluster.fields import ParentalKey
+from wagtail.contrib.forms.forms import FormBuilder
+from django.conf import settings
 
 
 class BasePage(Page):
@@ -137,7 +143,7 @@ class FooterSettings(BaseSetting):
 
 class BaseSearchPage(BasePage):
     '''
-    A basic front-end search page.
+    A basic front-end search page for CMS content.
     It searches for live Wagtail pages matching a query passed in the query
     string. Results are paginated.
 
@@ -184,4 +190,96 @@ class BaseSearchPage(BasePage):
 
 
 class SearchPage(BaseSearchPage):
+    pass
+
+# --------------------------------------------------------------------------
+#                   Form Builder & derived pages
+# --------------------------------------------------------------------------
+
+
+NEW_FIELD_CHOICES = []
+
+''' This is ALWAYS available even if captcha app is not installed.
+That's because django migrations take all choice options into consideration.
+So we can't add option dynamically based on presence of captcha app.
+'''
+NEW_FIELD_CHOICES.append(('captcha', 'Captcha'))
+
+
+class KDLFormBuilder(FormBuilder):
+    '''
+    Form builder with new field types:
+    * captcha
+    '''
+
+    def create_captcha_field(self, field, options):
+        '''
+        This will raise an exception if captcha app isn't fully set up.
+        Make sure you have installed dango-simple-captcha package,
+        added 'captcha' to your INSTALLED_APPS
+        anded a re_path(r'^captcha/', include('captcha.urls')) to urls.py.
+        '''
+        from captcha.fields import CaptchaField
+        return CaptchaField(**options)
+
+
+class KDLAbstractFormField(AbstractFormField):
+    CHOICES = list(FORM_FIELD_CHOICES) + NEW_FIELD_CHOICES
+
+    field_type = models.CharField(
+        verbose_name='field type',
+        max_length=16,
+        # use the choices tuple defined above
+        choices=CHOICES
+    )
+
+    class Meta:
+        abstract = True
+
+
+class BaseFormBuilderPage(BasePage, AbstractEmailForm):
+    '''
+    An abstract Wagtail Form Builder.
+    '''
+    class Meta:
+        abstract = True
+
+    thank_you_text = RichTextField(blank=True)
+
+    content_panels = AbstractEmailForm.content_panels + [
+        FieldPanel('introduction', classname='full'),
+        ImageChooserPanel('image')
+    ] + [
+        InlinePanel('form_fields', label="Form fields"),
+        FieldPanel('thank_you_text', classname="full"),
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('from_address', classname="col6"),
+                FieldPanel('to_address', classname="col6"),
+            ]),
+            FieldPanel('subject'),
+        ], "Email"),
+    ]
+
+    form_builder = KDLFormBuilder
+
+
+class BaseContactUsPage(BaseFormBuilderPage):
+    '''
+    An abstract contact us page, inherit from generic form builder page.
+    Nothing special here for the moment.
+    '''
+    class Meta:
+        abstract = True
+
+
+class ContactUsField(KDLAbstractFormField):
+    '''
+    Unfortunately we can't define this parental key against an abstract page
+    '''
+    page = ParentalKey('ContactUsPage', on_delete=models.CASCADE,
+                       related_name='form_fields')
+
+
+class ContactUsPage(BaseContactUsPage):
     pass

@@ -1,0 +1,18 @@
+{% extends "kdl_wagtail_core/base_page.html" %}
+{% load wagtailcore_tags kdl_wagtail_core_tags %}
+
+{% block page-body %}
+<div class="page-body {% get_page_label page %}">
+    {% block page-introduction %}
+        {% include "kdl_wagtail_core/includes/page_introduction.html" %}
+    {% endblock page-introduction %}
+
+    {% block contact-form %}
+        <form action="{% pageurl page %}" method="POST">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <input type="submit">
+        </form>
+    {% endblock %}
+</div>
+{% endblock page-body %}
