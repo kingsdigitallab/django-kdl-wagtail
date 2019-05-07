@@ -112,7 +112,7 @@ def get_object_id(obj, prefix=None, suffix=None):
     Two objects with non-overlapping lifetimes may have the same id() value.
     See https://docs.python.org/3/library/functions.html#id
     """
-    obj_id = id(obj)
+    obj_id = getattr(obj, 'id', id(obj))
 
     if prefix:
         obj_id = '{}-{}'.format(prefix, obj_id)
