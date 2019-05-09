@@ -178,4 +178,4 @@ def krackdown_link(html):
 
 def krackdown_anchor(html):
     return re.sub(
-        r'\{#([^\}]+)\}', r'<a id="\1" class="anchor-link"></a>', html)
+        r'\{#([^\}]+)\}', r'<a id="\1"></a>', html)
