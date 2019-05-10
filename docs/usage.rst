@@ -16,6 +16,8 @@ To use Django KDL Wagtail in a project, add it to your `INSTALLED_APPS`:
         ...
     )
 
+Note that to use the zotero app you need to install [pyzotero](https://pyzotero.readthedocs.io/).
+
 To use the Wagtail API, add Django KDL Wagtail's `api_router` to `urls.py`:
 
 .. code-block:: python
