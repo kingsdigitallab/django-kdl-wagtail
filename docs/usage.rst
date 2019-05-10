@@ -55,6 +55,5 @@ Available settings:
 Available commands:
 
 To import bibliography entries from Zotero run the management command `zotero_import`.
-Please note that this command does not deal with entries that have been deleted on the
-Zotero side; it might be worth deleting all the Bibliography objects from the database
-before running an import.
+The command takes the optional argument `--delete` which when present will delele all
+the existing bibliography entries before doing the Zotero import.
