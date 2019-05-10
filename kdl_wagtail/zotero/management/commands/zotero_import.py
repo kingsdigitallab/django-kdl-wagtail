@@ -7,6 +7,13 @@ from pyzotero import zotero
 class Command(BaseCommand):
     help = 'Imports bibliography records from Zotero'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='Delete existing bibliography entries before doing an import'
+        )
+
     def handle(self, *args, **options):
         try:
             zot = zotero.Zotero(settings.KDL_WAGTAIL_ZOTERO_LIBRARY_ID,
@@ -16,15 +23,27 @@ class Command(BaseCommand):
             collection_id = settings.KDL_WAGTAIL_ZOTERO_COLLECTION
             citation_style = settings.KDL_WAGTAIL_ZOTERO_STYLE
 
+            if options['delete']:
+                self.delete_bibliography()
+                self.stdout.write('')
+
             self.import_bibliography(zot, collection_id, citation_style)
         except AttributeError as e:
             raise CommandError(e)
 
-    def import_bibliography(self, zot, collection_id, citation_style):
-        number_of_items = zot.count_items()
+    def delete_bibliography(self):
+        number_of_entries = Bibliography.objects.count()
+        if number_of_entries == 0:
+            self.stdout.write(
+                self.style.NOTICE('No bibliography entries to delete'))
+            return
 
         self.stdout.write(
-            '{} items in the zotero collection'.format(number_of_items))
+            self.style.WARNING('Deleting all bibliography entries'))
+        Bibliography.objects.all().delete()
+
+    def import_bibliography(self, zot, collection_id, citation_style):
+        self.stdout.write('Importing bibliography entries from Zotero')
 
         for idx, item in self.items_enumerator(
                 zot, collection_id, citation_style):
@@ -36,7 +55,7 @@ class Command(BaseCommand):
             b.save()
 
         self.stdout.write(
-            self.style.SUCCESS('{} items imported/updated'.format(idx)))
+            self.style.SUCCESS('{} bibliography entries imported'.format(idx)))
 
     def items_enumerator(self, zot, collection_id, citation_style):
         return enumerate(
