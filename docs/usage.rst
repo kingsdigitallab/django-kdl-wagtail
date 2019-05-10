@@ -32,13 +32,15 @@ Available settings:
 
 .. code-block:: python
 
-    # the number of items per page used by the pagination functions
+    # The number of items per page used by the pagination functions
     KDL_WAGTAIL_ITEMS_PER_PAGE = 10
 
-    # the person model to be used by the kdl_wagtail.people app
+    # The person model to be used by the kdl_wagtail.people app
     KDL_WAGTAIL_PERSON_MODEL = 'kdl_wagtail_people.Person'
 
     # Zotero bibliography settings
+    # The bibliography model to be used by the kdl_wagtail.zotero app, defaults to
+    KDL_WAGTAIL_BIBLIOGRAPHY_MODEL = 'kdl_wagtail_zotero.Bibliography'
     # Zotero collection to import
     KDL_WAGTAIL_ZOTERO_COLLECTION = ''
     # ID of the Zotero library
