@@ -11,26 +11,37 @@ class Command(BaseCommand):
         try:
             zot = zotero.Zotero(settings.KDL_WAGTAIL_ZOTERO_LIBRARY_ID,
                                 settings.KDL_WAGTAIL_ZOTERO_LIBRARY_TYPE,
-                                settings.KDL_WAGTAIL_ZOTERO_TOKEN)
-            self.import_bibliography(zot)
+                                settings.KDL_WAGTAIL_ZOTERO_TOKEN,
+                                preserve_json_order=True)
+            collection_id = settings.KDL_WAGTAIL_ZOTERO_COLLECTION
+            citation_style = settings.KDL_WAGTAIL_ZOTERO_STYLE
+
+            self.import_bibliography(zot, collection_id, citation_style)
         except AttributeError as e:
             raise CommandError(e)
 
-    def import_bibliography(self, zot):
+    def import_bibliography(self, zot, collection_id, citation_style):
         number_of_items = zot.count_items()
 
-        self.stdout.write('{} items to import/update'.format(number_of_items))
+        self.stdout.write(
+            '{} items in the zotero collection'.format(number_of_items))
 
-        for item in self.items_generator(zot):
+        for idx, item in self.items_enumerator(
+                zot, collection_id, citation_style):
             b, _ = Bibliography.objects.get_or_create(key=item['key'])
+            b.order = idx
             b.citation = item['citation']
             b.url = item['links']['alternate']['href']
             b.bib = item['bib']
             b.save()
 
-        self.stdout.write(self.style.SUCCESS(
-            '{} items imported/updated'.format(number_of_items)))
+        self.stdout.write(
+            self.style.SUCCESS('{} items imported/updated'.format(idx)))
 
-    def items_generator(self, zot):
-        for item in zot.everything(zot.items(include='bib,citation')):
-            yield item
+    def items_enumerator(self, zot, collection_id, citation_style):
+        return enumerate(
+            zot.everything(
+                zot.collection_items(
+                    collection_id, include='bib,citation',
+                    itemType='-attachment', order='creator',
+                    style=citation_style)))

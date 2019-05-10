@@ -14,6 +14,7 @@ from wagtail.snippets.models import register_snippet
 
 class BaseBibliography(index.Indexed, ClusterableModel):
     key = models.CharField(max_length=32, unique=True)
+    order = models.PositiveSmallIntegerField(null=True)
     citation = RichTextField()
     url = models.URLField()
     bib = RichTextField()
@@ -39,6 +40,7 @@ class BaseBibliography(index.Indexed, ClusterableModel):
 
     class Meta:
         abstract = True
+        ordering = ['order']
         verbose_name = 'Biblography'
         verbose_name_plural = 'Bibliography'
 

@@ -5,7 +5,7 @@ from .models import get_bibliography_model
 
 class BibliographyModelAdmin(ModelAdmin):
     model = get_bibliography_model()
-    list_display = ['key', 'note', 'entry']
+    list_display = ['key', 'order', 'note', 'entry']
     menu_icon = 'form'
 
 
