@@ -54,6 +54,11 @@ Features
     * A Person snippet, this is accessible from the Wagtail menu bar
     * A PersonPage
     * A PeopleIndexPage
+* Zotero application, `kdl_wagtail_zotero`:
+    * A Bibliography model to store entried harvested from a Zotero collection
+    * A management command, `zotero_import`, to import entries from a Zotero collection
+    * A BibliographyIndexPage, to display all the bibliography entries
+    * The Zotero based Bibliography is available from the Wagtail menu bar
 * Custom settings
     * Footer customisation
     * Analytics integration

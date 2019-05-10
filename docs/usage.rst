@@ -10,8 +10,9 @@ To use Django KDL Wagtail in a project, add it to your `INSTALLED_APPS`:
         ...
         'wagtail.contrib.settings',
         ...
-        'kdl_wagtail.core.apps.KdlWagtailCoreConfig',
-        'kdl_wagtail.people.apps.KdlWagtailContribPeopleConfig',
+        'kdl_wagtail.core',
+        'kdl_wagtail.people',
+        'kdl_wagtail.zotero',
         ...
     )
 
@@ -36,3 +37,22 @@ Available settings:
 
     # the person model to be used by the kdl_wagtail.people app
     KDL_WAGTAIL_PERSON_MODEL = 'kdl_wagtail_people.Person'
+
+    # Zotero bibliography settings
+    # Zotero collection to import
+    KDL_WAGTAIL_ZOTERO_COLLECTION = ''
+    # ID of the Zotero library
+    KDL_WAGTAIL_ZOTERO_LIBRARY_ID = ''
+    # The type of library, either `group` or `user`
+    KDL_WAGTAIL_ZOTERO_LIBRARY_TYPE = ''
+    # Note citation style, for available styles see https://www.zotero.org/styles/
+    KDL_WAGTAIL_ZOTERO_STYLE = 'chicago-note-bibliography'
+    # Zotero API token
+    KDL_WAGTAIL_ZOTERO_TOKEN = ''
+
+Available commands:
+
+To import bibliography entries from Zotero run the management command `zotero_import`.
+Please note that this command does not deal with entries that have been deleted on the
+Zotero side; it might be worth deleting all the Bibliography objects from the database
+before running an import.
