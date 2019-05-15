@@ -1,11 +1,26 @@
 from wagtail.contrib.table_block.blocks import TableBlock as WagtailTableBlock
 from wagtail.core.blocks import (
-    CharBlock, ChoiceBlock, ListBlock, PageChooserBlock, RichTextBlock,
-    StreamBlock, StructBlock, StructValue, URLBlock
+    BooleanBlock, CharBlock, ChoiceBlock, ListBlock, PageChooserBlock,
+    RichTextBlock, StreamBlock, StructBlock, StructValue, URLBlock
 )
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
+
+
+class BaseStructBlock(StructBlock):
+    show_in_menus = BooleanBlock(default=True, required=False)
+
+    def get_form_context(self, value, prefix='', errors=None):
+        context = super().get_form_context(value, prefix=prefix, errors=errors)
+        fields = context['children'].copy()
+
+        for field in reversed(context['children']):
+            fields.move_to_end(field)
+
+        context['children'] = fields
+
+        return context
 
 
 class AlignmentChoiceBlock(ChoiceBlock):
@@ -18,7 +33,7 @@ class AlignmentChoiceBlock(ChoiceBlock):
     ]
 
 
-class BaseCaptionAttributionBlock(StructBlock):
+class BaseCaptionAttributionBlock(BaseStructBlock):
     """
     Base `StructBlock` to create blocks that use captions and attribution
     fields.
@@ -28,17 +43,6 @@ class BaseCaptionAttributionBlock(StructBlock):
 
     attribution = CharBlock(required=False)
     caption = CharBlock(required=False)
-
-    def get_form_context(self, value, prefix='', errors=None):
-        context = super().get_form_context(value, prefix=prefix, errors=errors)
-        fields = context['children'].copy()
-
-        for field in reversed(context['children']):
-            fields.move_to_end(field)
-
-        context['children'] = fields
-
-        return context
 
 
 class DocumentBlock(BaseCaptionAttributionBlock):
@@ -73,7 +77,7 @@ class EmbedBlock(BaseCaptionAttributionBlock):
         template = 'kdl_wagtail_core/blocks/embed_block.html'
 
 
-class HeadingBlock(StructBlock):
+class HeadingBlock(BaseStructBlock):
     """
     Custom `StructBlock` that allows the user to select h2 - h5 sizes for
     headers.
@@ -122,7 +126,7 @@ class ImageBlock(BaseCaptionAttributionBlock):
         value_class = LinkBlockStructValue
 
 
-class GalleryBlock(StructBlock):
+class GalleryBlock(BaseStructBlock):
     images_block = ListBlock(ImageBlock())
 
     class Meta:
@@ -130,7 +134,7 @@ class GalleryBlock(StructBlock):
         template = 'kdl_wagtail_core/blocks/gallery_block.html'
 
 
-class LinkBlock(StructBlock):
+class LinkBlock(BaseStructBlock):
     """
     `StructBlock` for using links to external URLs or internal pages.
     """
@@ -147,7 +151,7 @@ class LinkBlock(StructBlock):
         value_class = LinkBlockStructValue
 
 
-class PullQuoteBlock(StructBlock):
+class PullQuoteBlock(BaseStructBlock):
     quote = RichTextBlock()
     attribution = CharBlock(required=False)
 
