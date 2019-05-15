@@ -6,7 +6,9 @@ from .models import get_bibliography_model
 class BibliographyModelAdmin(ModelAdmin):
     model = get_bibliography_model()
     list_display = ['key', 'order', 'entry', 'note', 'shortnote']
+    list_filter = ['author']
     menu_icon = 'form'
+    search_fields = ['key', 'author', 'title', 'bib']
 
 
 modeladmin_register(BibliographyModelAdmin)
