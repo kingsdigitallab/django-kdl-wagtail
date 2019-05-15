@@ -48,6 +48,13 @@ class Command(BaseCommand):
         for idx, item in self.items_enumerator(
                 zot, collection_id, citation_style):
             b, _ = Bibliography.objects.get_or_create(key=item['key'])
+
+            if 'creatorSummary' in item['meta']:
+                b.author = item['meta']['creatorSummary']
+
+            if 'title' in item['data']:
+                b.title = item['data']['title']
+
             b.order = idx
             b.citation = item['citation']
             b.url = item['links']['alternate']['href']
@@ -61,6 +68,6 @@ class Command(BaseCommand):
         return enumerate(
             zot.everything(
                 zot.collection_items(
-                    collection_id, include='bib,citation',
+                    collection_id, include='bib,citation,data',
                     itemType='-attachment', order='creator',
                     style=citation_style)))

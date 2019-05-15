@@ -14,6 +14,8 @@ from wagtail.snippets.models import register_snippet
 
 class BaseBibliography(index.Indexed, ClusterableModel):
     key = models.CharField(max_length=32, unique=True)
+    author = models.CharField(max_length=256, null=True)
+    title = models.CharField(max_length=256, null=True)
     order = models.PositiveSmallIntegerField(null=True)
     citation = RichTextField()
     url = models.URLField()
@@ -21,6 +23,8 @@ class BaseBibliography(index.Indexed, ClusterableModel):
 
     api_fields = [
         APIField('key'),
+        APIField('author'),
+        APIField('title'),
         APIField('citation'),
         APIField('url'),
         APIField('bib')
@@ -28,12 +32,16 @@ class BaseBibliography(index.Indexed, ClusterableModel):
 
     panels = [
         FieldPanel('key'),
+        FieldPanel('author'),
+        FieldPanel('title'),
         FieldPanel('citation'),
         FieldPanel('url'),
         FieldPanel('bib')
     ]
 
     search_fields = [
+        index.SearchField('author'),
+        index.SearchField('title'),
         index.SearchField('citation'),
         index.SearchField('bib')
     ]
@@ -48,12 +56,24 @@ class BaseBibliography(index.Indexed, ClusterableModel):
         return self.note
 
     @property
+    def entry(self):
+        return mark_safe(self.bib)
+
+    @property
     def note(self):
         return mark_safe(self.citation)
 
     @property
-    def entry(self):
-        return mark_safe(self.bib)
+    def shortnote(self):
+        if self.author and self.title:
+            return mark_safe(
+                '{}, <i>{}</i>'.format(self.author, self.title.title()))
+
+        if self.author:
+            return self.author
+
+        if self.title:
+            return mark_safe('<i>{}</i>'.format(self.title))
 
 
 @register_snippet
