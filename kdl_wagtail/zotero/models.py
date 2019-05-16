@@ -53,7 +53,7 @@ class BaseBibliography(index.Indexed, ClusterableModel):
         verbose_name_plural = 'Bibliography'
 
     def __str__(self):
-        return self.note
+        return mark_safe(self.entry)
 
     @property
     def entry(self):
