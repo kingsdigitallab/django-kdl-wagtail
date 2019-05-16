@@ -8,7 +8,7 @@ class BibliographyModelAdmin(ModelAdmin):
     list_display = ['key', 'order', 'entry', 'note', 'shortnote']
     list_filter = ['author']
     menu_icon = 'form'
-    search_fields = ['key', 'author', 'title', 'bib']
+    search_fields = ['key', 'author', 'bib']
 
 
 modeladmin_register(BibliographyModelAdmin)

@@ -21,13 +21,16 @@ class Command(BaseCommand):
                                 settings.KDL_WAGTAIL_ZOTERO_TOKEN,
                                 preserve_json_order=True)
             collection_id = settings.KDL_WAGTAIL_ZOTERO_COLLECTION
-            citation_style = settings.KDL_WAGTAIL_ZOTERO_STYLE
+            citation_styles = {
+                'note': settings.KDL_WAGTAIL_ZOTERO_NOTE_STYLE,
+                'shortnote': settings.KDL_WAGTAIL_ZOTERO_SHORTNOTE_STYLE
+            }
 
             if options['delete']:
                 self.delete_bibliography()
                 self.stdout.write('')
 
-            self.import_bibliography(zot, collection_id, citation_style)
+            self.import_bibliography(zot, collection_id, citation_styles)
         except AttributeError as e:
             raise CommandError(e)
 
@@ -42,24 +45,29 @@ class Command(BaseCommand):
             self.style.WARNING('Deleting all bibliography entries'))
         Bibliography.objects.all().delete()
 
-    def import_bibliography(self, zot, collection_id, citation_style):
+    def import_bibliography(self, zot, collection_id, citation_styles):
         self.stdout.write('Importing bibliography entries from Zotero')
 
-        for idx, item in self.items_enumerator(
-                zot, collection_id, citation_style):
-            b, _ = Bibliography.objects.get_or_create(key=item['key'])
+        for key in citation_styles.keys():
+            citation_style = citation_styles[key]
 
-            if 'creatorSummary' in item['meta']:
-                b.author = item['meta']['creatorSummary']
+            for idx, item in self.items_enumerator(
+                    zot, collection_id, citation_style):
+                b, _ = Bibliography.objects.get_or_create(key=item['key'])
 
-            if 'title' in item['data']:
-                b.title = item['data']['title']
+                if 'creatorSummary' in item['meta']:
+                    b.author = item['meta']['creatorSummary']
 
-            b.order = idx
-            b.citation = item['citation']
-            b.url = item['links']['alternate']['href']
-            b.bib = item['bib']
-            b.save()
+                b.order = idx
+
+                if key == 'shortnote':
+                    b.citation_short = item['citation']
+                else:
+                    b.citation = item['citation']
+
+                b.url = item['links']['alternate']['href']
+                b.bib = item['bib']
+                b.save()
 
         self.stdout.write(
             self.style.SUCCESS('{} bibliography entries imported'.format(idx)))
