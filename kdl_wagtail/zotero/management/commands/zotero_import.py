@@ -42,8 +42,12 @@ class Command(BaseCommand):
             return
 
         self.stdout.write(
-            self.style.WARNING('Deleting all bibliography entries'))
-        Bibliography.objects.all().delete()
+            self.style.WARNING(
+                'Deleting bibliography entries that are not being used'))
+
+        for b in Bibliography.objects.all():
+            if not b.get_usage():
+                b.delete()
 
     def import_bibliography(self, zot, collection_id, citation_styles):
         self.stdout.write('Importing bibliography entries from Zotero')
