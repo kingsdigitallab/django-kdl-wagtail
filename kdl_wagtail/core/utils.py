@@ -171,11 +171,16 @@ def migrate_wagtail_page_type(apps, schema_editor, mapping):
     return len(pages_to)
 
 
+def krackdown_anchor(html):
+    return re.sub(
+        r'\{#([^\}]+)\}', r'<a id="\1"></a>', html)
+
+
 def krackdown_link(html):
     return re.sub(
         r'\[([^\[]+)\]\(([^\)]+)\)', r'<a href="\2">\1</a>', html)
 
 
-def krackdown_anchor(html):
+def krackdown_footnote(html):
     return re.sub(
-        r'\{#([^\}]+)\}', r'<a id="\1"></a>', html)
+        r'\[\^([^\]]+)\]', r'<sup><a href="#fn:\1">\1</a></sup>', html)
