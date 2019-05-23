@@ -183,4 +183,5 @@ def krackdown_link(html):
 
 def krackdown_footnote(html):
     return re.sub(
-        r'\[\^([^\]]+)\]', r'<sup><a href="#fn:\1">\1</a></sup>', html)
+        r'\[\^([^\]]+)\]',
+        r'<sup id="fnref:\1"><a href="#fn:\1">\1</a></sup>', html)
