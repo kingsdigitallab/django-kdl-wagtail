@@ -57,7 +57,7 @@ class BaseIndexPage(BasePage):
         abstract = True
 
     def children(self):
-        return self.get_children().specific().live()
+        return self.get_children().specific().live().order_by('title')
 
     def get_context(self, request):
         context = super().get_context(request)
