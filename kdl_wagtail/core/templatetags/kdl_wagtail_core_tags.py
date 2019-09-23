@@ -135,3 +135,8 @@ def krackdown(richtext):
         html = f(html)
 
     return mark_safe(html)
+
+
+@register.filter()
+def order_by(value, arg):
+    return value.order_by(arg)

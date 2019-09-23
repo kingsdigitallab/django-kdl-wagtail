@@ -4,7 +4,7 @@ from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel,\
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Page
+from wagtail.core.models import Page, Site
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image
 from wagtail.search import index
@@ -15,7 +15,6 @@ from wagtail.contrib.forms.models import AbstractFormField, AbstractEmailForm,\
     FORM_FIELD_CHOICES
 from modelcluster.fields import ParentalKey
 from wagtail.contrib.forms.forms import FormBuilder
-from django.conf import settings
 
 
 class BasePage(Page):
@@ -191,6 +190,22 @@ class BaseSearchPage(BasePage):
 
 class SearchPage(BaseSearchPage):
     pass
+
+
+class SitemapPage(Page):
+    def get_context(self, request, *args, **kwargs):
+        context = super(SitemapPage, self).get_context(
+            request, *args, **kwargs)
+
+        site = Site.find_for_request(request)
+        if not site:
+            return context
+
+        context['children'] = site.root_page.get_children(
+        ).live().order_by('title')
+
+        return context
+
 
 # --------------------------------------------------------------------------
 #                   Form Builder & derived pages
