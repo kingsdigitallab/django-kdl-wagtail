@@ -124,17 +124,18 @@ def get_object_id(obj, prefix=None, suffix=None):
 
 
 @register.filter()
-def krackdown(richtext):
+def krackdown(text):
     filters = getattr(settings, 'KDL_WAGTAIL_KRACKDOWN_FILTERS', [])
 
-    html = richtext.__html__()
+    if not isinstance(text, str):
+        text = text.__html__()
 
     for function_name in filters:
         # not catching import errors to allow the propagation of the error
         f = import_string(function_name)
-        html = f(html)
+        text = f(text)
 
-    return mark_safe(html)
+    return mark_safe(text)
 
 
 @register.filter()

@@ -1,8 +1,9 @@
 from wagtail.contrib.table_block.blocks import TableBlock as WagtailTableBlock
 from wagtail.core.blocks import (
-    BooleanBlock, CharBlock, ChoiceBlock, ListBlock, PageChooserBlock,
-    RichTextBlock, StreamBlock, StructBlock, StructValue, URLBlock
+    BooleanBlock, CharBlock, ChoiceBlock, ListBlock, PageChooserBlock
 )
+from wagtail.core.blocks import RichTextBlock as WagtailRichTextBlock
+from wagtail.core.blocks import StreamBlock, StructBlock, StructValue, URLBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock as WagtailEmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -31,6 +32,12 @@ class AlignmentChoiceBlock(ChoiceBlock):
         ('float-center', 'Centre'),
         ('full-width', 'Full width')
     ]
+
+
+class RichTextBlock(WagtailRichTextBlock):
+    class Meta:
+        icon = 'pilcrow'
+        template = 'kdl_wagtail_core/blocks/richtext_block.html'
 
 
 class BaseCaptionAttributionBlock(BaseStructBlock):
@@ -173,10 +180,7 @@ class TableBlock(BaseCaptionAttributionBlock):
 
 class BaseStreamBlock(StreamBlock):
     heading_block = HeadingBlock()
-    richtext_block = RichTextBlock(
-        icon='pilcrow',
-        template='kdl_wagtail_core/blocks/richtext_block.html'
-    )
+    richtext_block = RichTextBlock()
     document_block = DocumentBlock()
     gallery_block = GalleryBlock()
     image_block = ImageBlock()
