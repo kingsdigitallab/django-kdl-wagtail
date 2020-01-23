@@ -1,17 +1,18 @@
-{% load wagtailimages_tags %}
+{% load wagtailcore_tags %}
 
 <div class="image {{ self.alignment }}">
-    <figure>
-        {% if self.alignment == 'full-width' %}
-        {% image self.image original %}
-        {% else %}
-        {% image self.image max-800x800 %}
-        {% endif %}
+  {% if self.url or self.page %}
 
-        <figcaption>
-            {% include "kdl_wagtail_core/includes/caption_attribution.html" %}
-        </figcaption>
-    </figure>
+  <a class="{% if self.url %}external{% else %}internal{% endif %}"
+    href="{% if self.url %}{{ self.url }}{% else %}{% pageurl self.page %}{% endif %}">
+    {% include "kdl_wagtail_core/includes/image_block_figure.html" %}
+  </a>
 
-    {% include "kdl_wagtail_core/includes/description_transcription.html" %}
+  {% else %}
+
+  {% include "kdl_wagtail_core/includes/image_block_figure.html" %}
+
+  {% endif %}
+
+  {% include "kdl_wagtail_core/includes/description_transcription.html" with obj=self %}
 </div>

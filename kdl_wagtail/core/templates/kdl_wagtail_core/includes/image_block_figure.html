@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+
+<figure>
+  {% if self.alignment == 'full-width' %}
+  {% image self.image original %}
+  {% else %}
+  {% image self.image max-800x800 %}
+  {% endif %}
+
+  <figcaption>
+    {% include "kdl_wagtail_core/includes/caption_attribution.html" with obj=self %}
+  </figcaption>
+</figure>

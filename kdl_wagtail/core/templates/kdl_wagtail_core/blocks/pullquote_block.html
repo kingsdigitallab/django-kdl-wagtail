@@ -1,11 +1,11 @@
-{% load wagtailcore_tags %}
+{% load kdl_wagtail_core_tags wagtailcore_tags %}
 
 <div class="pullquote">
-    <blockquote>
-        {{ self.quote|richtext }}
+  <blockquote>
+    {{ self.quote|richtext|krackdown }}
 
-        {% if self.attribution %}
-        <cite class="attribution">{{ self.attribution }}</cite>
-        {% endif %}
-    </blockquote>
+    {% if self.attribution %}
+    <cite class="attribution">{{ self.attribution }}</cite>
+    {% endif %}
+  </blockquote>
 </div>

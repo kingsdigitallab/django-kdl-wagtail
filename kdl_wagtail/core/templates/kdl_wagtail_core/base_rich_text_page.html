@@ -3,6 +3,10 @@
 
 {% block page-body %}
 <div class="page-body {% get_page_label page %}">
-    {{ page.body|richtext }}
+    {% block page-introduction %}
+    {% include "kdl_wagtail_core/includes/page_introduction.html" %}
+    {% endblock page-introduction %}
+
+    {{ page.body|richtext|krackdown }}
 </div>
 {% endblock page-body %}

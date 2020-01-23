@@ -1,5 +1,8 @@
 from django import template
+from django.conf import settings
 from django.template.defaultfilters import striptags, truncatechars
+from django.utils.module_loading import import_string
+from django.utils.safestring import mark_safe
 from kdl_wagtail.core.models import AnalyticsSettings, FooterSettings
 from kdl_wagtail.core.utils import paginate
 
@@ -64,7 +67,7 @@ def get_block_title(block):
 
         return 'Table'
 
-    return block.block_type.replace('_', ' ').capitalize()
+    return block.block_type.replace('_', ' ')
 
 
 @register.inclusion_tag(
@@ -109,7 +112,7 @@ def get_object_id(obj, prefix=None, suffix=None):
     Two objects with non-overlapping lifetimes may have the same id() value.
     See https://docs.python.org/3/library/functions.html#id
     """
-    obj_id = id(obj)
+    obj_id = getattr(obj, 'id', id(obj))
 
     if prefix:
         obj_id = '{}-{}'.format(prefix, obj_id)
@@ -118,3 +121,23 @@ def get_object_id(obj, prefix=None, suffix=None):
         obj_id = '{}-{}'.format(obj_id, suffix)
 
     return obj_id
+
+
+@register.filter()
+def krackdown(text):
+    filters = getattr(settings, 'KDL_WAGTAIL_KRACKDOWN_FILTERS', [])
+
+    if not isinstance(text, str):
+        text = text.__html__()
+
+    for function_name in filters:
+        # not catching import errors to allow the propagation of the error
+        f = import_string(function_name)
+        text = f(text)
+
+    return mark_safe(text)
+
+
+@register.filter()
+def order_by(value, arg):
+    return value.order_by(arg)

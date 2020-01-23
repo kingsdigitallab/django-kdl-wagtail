@@ -1,0 +1,12 @@
+{% extends "kdl_wagtail_core/base.html" %}
+{% load kdl_wagtail_core_tags %}
+
+{% block page-body %}
+<div class="page-body sitemap">
+  {% block page-children %}
+  <div class="children">
+    {% include "kdl_wagtail_core/includes/sitemap_page_children.html" %}
+  </div>
+  {% endblock page-children %}
+</div>
+{% endblock page-body %}

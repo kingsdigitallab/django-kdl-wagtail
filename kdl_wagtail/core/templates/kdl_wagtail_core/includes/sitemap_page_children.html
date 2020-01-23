@@ -1,0 +1,21 @@
+{% load kdl_wagtail_core_tags wagtailcore_tags %}
+
+{% if children %}
+
+<ul>
+  {% for child in children %}
+  <li class="child-page">
+    <a href="{% pageurl child %}">{{ child.title }}</a>
+
+    {% with desc=child.get_children.live|order_by:'title' %}
+    {% if desc %}
+    {% include "kdl_wagtail_core/includes/sitemap_page_children.html" with children=desc %}
+    {% endif %}
+    {% endwith %}
+  </li>
+  {% endfor %}
+</ul>
+
+{% else %}
+<p>No live pages found!</p>
+{% endif %}
