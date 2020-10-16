@@ -2,11 +2,14 @@ from django.apps import apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
-from kdl_wagtail.core.models import BaseIndexPage, BasePage
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import (FieldPanel, FieldRowPanel,
-                                         InlinePanel, MultiFieldPanel)
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    FieldRowPanel,
+    InlinePanel,
+    MultiFieldPanel,
+)
 from wagtail.api import APIField
 from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
@@ -14,6 +17,8 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
+
+from kdl_wagtail.core.models import BaseIndexPage, BasePage
 
 
 class BasePerson(index.Indexed, ClusterableModel):
@@ -156,7 +161,7 @@ class PeopleIndexPage(BaseIndexPage):
     ]
 
     def people(self):
-        return self.peopleindex_person_relationship.all().select_related(
+        return self.peopleindex_person_relationship.live().select_related(
             'person')
 
     def get_context(self, request):
