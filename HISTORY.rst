@@ -3,7 +3,15 @@
 History
 -------
 
+0.9.0 (2020-01-23)
+++++++++++++++++++
+
+* Integration with Zotero
+* Base search
+
 0.5.0 (2019-02-05)
+++++++++++++++++++
+
 * Wagtail settings for footer text and analytics settings
 * `kdl_wagtail_core` utils:
     * `paginate`

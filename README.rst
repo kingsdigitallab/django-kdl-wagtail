@@ -1,6 +1,6 @@
-=============================
+==================
 Django KDL Wagtail
-=============================
+==================
 
 .. image:: https://badge.fury.io/py/django-kdl-wagtail.svg
     :target: https://badge.fury.io/py/django-kdl-wagtail
