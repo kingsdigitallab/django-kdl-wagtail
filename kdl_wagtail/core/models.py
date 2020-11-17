@@ -1,7 +1,19 @@
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel,\
-    InlinePanel, MultiFieldPanel, FieldRowPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    FieldRowPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    StreamFieldPanel,
+)
 from wagtail.api import APIField
+from wagtail.contrib.forms.forms import FormBuilder
+from wagtail.contrib.forms.models import (
+    FORM_FIELD_CHOICES,
+    AbstractEmailForm,
+    AbstractFormField,
+)
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page, Site
@@ -11,10 +23,6 @@ from wagtail.search import index
 
 from .blocks import BaseStreamBlock
 from .utils import paginate
-from wagtail.contrib.forms.models import AbstractFormField, AbstractEmailForm,\
-    FORM_FIELD_CHOICES
-from modelcluster.fields import ParentalKey
-from wagtail.contrib.forms.forms import FormBuilder
 
 
 class BasePage(Page):
@@ -56,7 +64,7 @@ class BaseIndexPage(BasePage):
         abstract = True
 
     def children(self):
-        return self.get_children().specific().live().order_by('title')
+        return self.get_children().specific().live()
 
     def get_context(self, request):
         context = super().get_context(request)
