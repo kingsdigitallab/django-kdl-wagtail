@@ -14,6 +14,7 @@ from wagtail.snippets.models import register_snippet
 
 class BaseBibliography(index.Indexed, ClusterableModel):
     key = models.CharField(max_length=32, unique=True)
+    item_type = models.CharField(max_length=64)
     author = models.CharField(max_length=256, null=True)
     order = models.PositiveSmallIntegerField(null=True)
     citation = RichTextField(verbose_name='note')
@@ -23,6 +24,7 @@ class BaseBibliography(index.Indexed, ClusterableModel):
 
     api_fields = [
         APIField('key'),
+        APIField('item_type'),
         APIField('author'),
         APIField('citation'),
         APIField('citation_short'),
@@ -32,6 +34,7 @@ class BaseBibliography(index.Indexed, ClusterableModel):
 
     panels = [
         FieldPanel('key'),
+        FieldPanel('item_type'),
         FieldPanel('url'),
         FieldPanel('author'),
         FieldPanel('bib'),
@@ -40,6 +43,7 @@ class BaseBibliography(index.Indexed, ClusterableModel):
     ]
 
     search_fields = [
+        index.SearchField('item_type'),
         index.SearchField('author'),
         index.SearchField('citation'),
         index.SearchField('citation_short'),
