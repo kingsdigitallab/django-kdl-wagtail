@@ -3,6 +3,11 @@
 History
 -------
 
+0.10 (2021-10-08)
++++++++++++++++++
+
+* ProxyPage: a new page type to support shortcuts and external links in menus
+
 0.9.0 (2020-01-23)
 ++++++++++++++++++
 
