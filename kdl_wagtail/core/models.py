@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+from django.utils.safestring import mark_safe
+from django.shortcuts import redirect
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -6,6 +9,7 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     StreamFieldPanel,
+    PageChooserPanel,
 )
 from wagtail.api import APIField
 from wagtail.contrib.forms.forms import FormBuilder
@@ -306,3 +310,66 @@ class ContactUsField(KDLAbstractFormField):
 
 class ContactUsPage(BaseContactUsPage):
     pass
+
+
+class ProxyPageAbstract(BasePage):
+    '''
+    Proxy to another page to help create external links and shortcuts in menus.
+    Either on this site (Wagtail Page) or hosted on an external URL.
+    When rendered this page will redirect to the target URL.
+    '''
+    target_page = models.ForeignKey(
+        'wagtailcore.Page', null=True, blank=True,
+        related_name='proxy_page', on_delete=models.SET_NULL
+    )
+    target_url = models.URLField('External URL', null=True, blank=True)
+
+    class Meta:
+        # description = 'A proxy to another page to make menu shortcuts.'
+        abstract = True
+
+    def clean(self):
+        if not(bool(self.target_page) ^ bool(self.target_url)):
+            raise ValidationError(
+                'Please specify either a target page or URL.'
+            )
+
+    def get_url_parts(self, *args, **kwargs):
+        '''Override this so this page work like an alias, faking its target.'''
+        # Note: this function can't return external URLs
+        ret = super(ProxyPageAbstract, self).get_url_parts(*args, **kwargs)
+        if self.target_page:
+            ret = self.target_page.get_url_parts(*args, **kwargs)
+        return ret
+
+    def get_absolute_target_url(self, request=None):
+        '''Returns the URL of the target. None if not defined.'''
+        ret = None
+        if self.target_page:
+            ret = self.target_page.get_full_url(request)
+        if self.target_url:
+            ret = self.target_url
+        return ret
+
+    def serve(self, request, *args, **kwargs):
+        url = self.get_absolute_target_url(request)
+        if url:
+            ret = redirect(url, permanent=False)
+        else:
+            ret = super(ProxyPageAbstract, self).serve(
+                request, *args, **kwargs
+            )
+
+        return ret
+
+    content_panels = [
+        FieldPanel('title', classname="full title"),
+        PageChooserPanel('target_page'),
+        FieldPanel('target_url'),
+    ]
+
+
+class ProxyPage(ProxyPageAbstract):
+    # This should be in the base class but it won't work there.
+    template = 'kdl_wagtail_core/base_page.html'
+

@@ -62,6 +62,7 @@ Features
 * Custom settings
     * Footer customisation
     * Analytics integration
+* ProxyPage: a new page type to support shortcuts and external links in menus
 
 TODO
 ----
