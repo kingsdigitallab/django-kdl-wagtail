@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wagtailimages', '0023_add_choose_permissions'),
+        ('wagtailimages', '0021_image_file_hash'),
         ('kdl_wagtail_core', '0022_contactusfield_clean_name'),
     ]
 
